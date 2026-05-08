@@ -9,8 +9,7 @@ import { randomUUID } from 'node:crypto';
 
   const car = carService.create({
     manufacturerId: randomUUID(),
-    model: 'TEst',
-    trim: 'test',
+    model: 'Test',
     year: 2025,
   });
 
