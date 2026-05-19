@@ -1,11 +1,14 @@
 import 'reflect-metadata';
 import * as cdk from 'aws-cdk-lib';
+import { APIStack } from './stacks/api-stack';
 
 const app = new cdk.App();
 
-const ACCOUNT = '000000000000';
-const REGION = 'eu-central-1';
-
-// TODO-1: include API resources
+new APIStack(app, 'ApiStack', {
+  env: {
+    account: '000000000000',
+    region: 'eu-central-1',
+  },
+});
 
 app.synth();
