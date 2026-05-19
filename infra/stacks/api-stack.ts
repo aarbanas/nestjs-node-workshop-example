@@ -11,7 +11,7 @@ export class APIStack extends cdk.Stack {
       functionName: 'api-lambda-fn',
       runtime: lambda.Runtime.NODEJS_24_X,
       handler: 'lambda.handler',
-      // TODO-1: set the path to the bundled app file
+      // TODO-1: set the path to the directory where bundled app file is located
       code: lambda.Code.fromAsset('', {
         exclude: ['*.map'],
       }),
