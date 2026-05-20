@@ -7,4 +7,12 @@ module.exports = (options, webpack) => ({
     filename: 'createCarHandler.js',
     libraryTarget: 'commonjs2',
   },
+  optimization: {
+    splitChunks: false,
+    runtimeChunk: false,
+  },
+  plugins: [
+    ...options.plugins,
+    new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
+  ],
 });

@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import {
   S3Client,
   GetObjectCommand,
   PutObjectCommand,
+  NoSuchKey,
 } from '@aws-sdk/client-s3';
 
 @Injectable()
@@ -18,11 +19,19 @@ export class StorageService {
   }
 
   async read<T>(key: string): Promise<T[]> {
-    const response = await this.client.send(
-      new GetObjectCommand({ Bucket: this.bucket, Key: key }),
-    );
-    const body = await response.Body!.transformToString();
-    return JSON.parse(body) as T[];
+    try {
+      const response = await this.client.send(
+        new GetObjectCommand({ Bucket: this.bucket, Key: key }),
+      );
+      const body = await response.Body!.transformToString();
+      return JSON.parse(body) as T[];
+    } catch (err) {
+      if (err instanceof NoSuchKey) {
+        await this.write<T>(key, []);
+        return [];
+      }
+      throw err;
+    }
   }
 
   async write<T>(key: string, data: T[]): Promise<void> {

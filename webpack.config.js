@@ -6,7 +6,15 @@ module.exports = (options, webpack) => {
     output: {
       ...options.output,
       filename: 'lambda.js',
-      libraryTarget: 'commonjs2'
+      libraryTarget: 'commonjs2',
     },
+    optimization: {
+      splitChunks: false,
+      runtimeChunk: false,
+    },
+    plugins: [
+      ...options.plugins,
+      new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
+    ],
   };
 };
