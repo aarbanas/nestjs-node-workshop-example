@@ -17,7 +17,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "build:lambda": "nest build --webpack"
+    "build:lambda": "nest build --webpack",
+    "build:event-handler": "nest build --webpack --webpackPath webpack.event-handler.config.js"
   },
   "dependencies": {
     "@codegenie/serverless-express": "^5.0.0",
