@@ -1,12 +1,17 @@
 import * as cdk from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
 import { Construct } from 'constructs';
 import path from 'node:path';
 
+interface EventHandlerStackProps extends cdk.StackProps {
+  bucket: s3.IBucket;
+}
+
 export class EventHandlerStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props: EventHandlerStackProps) {
     super(scope, id, props);
 
     const queue = new sqs.Queue(this, 'CarEventsQueue', {
@@ -28,9 +33,12 @@ export class EventHandlerStack extends cdk.Stack {
         timeout: cdk.Duration.seconds(30),
         environment: {
           NODE_ENV: 'production',
+          S3_BUCKET_NAME: props.bucket.bucketName,
         },
       },
     );
+
+    // TODO-3: allow Lambda function bucket access
 
     createCarEventHandlerFn.addEventSource(
       new SqsEventSource(queue, {

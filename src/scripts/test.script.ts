@@ -7,13 +7,13 @@ import { randomUUID } from 'node:crypto';
   const app = await NestFactory.createApplicationContext(CarModule);
   const carService = app.get(CarService);
 
-  const car = carService.create({
+  const car = await carService.create({
     manufacturerId: randomUUID(),
     model: 'Test',
     year: 2025,
   });
 
-  const myCar = carService.findOne(car.id);
+  const myCar = await carService.findOne(car.id);
 
   console.log(myCar);
 })();

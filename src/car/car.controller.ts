@@ -17,20 +17,23 @@ import { ApiTags } from '@nestjs/swagger';
 export class CarController {
   constructor(private readonly carService: CarService) {}
 
-  @Post() create(@Body() dto: CreateCarDto) {
+  @Post() async create(@Body() dto: CreateCarDto) {
     return this.carService.create(dto);
   }
-  @Get() findAll() {
+  @Get() async findAll() {
     return this.carService.findAll();
   }
-  @Get(':id') findOne(@Param('id') id: string) {
+  @Get(':id') async findOne(@Param('id') id: string) {
     return this.carService.findOne(id);
   }
-  @Patch(':id') update(@Param('id') id: string, @Body() dto: UpdateCarDto) {
+  @Patch(':id') async update(
+    @Param('id') id: string,
+    @Body() dto: UpdateCarDto,
+  ) {
     return this.carService.update(id, dto);
   }
-  @Delete(':id') remove(@Param('id') id: string) {
-    this.carService.remove(id);
+  @Delete(':id') async remove(@Param('id') id: string) {
+    await this.carService.remove(id);
     return { deleted: true };
   }
 }

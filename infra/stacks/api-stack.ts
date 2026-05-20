@@ -1,10 +1,15 @@
 import * as cdk from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import * as s3 from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs';
 
+interface APIStackProps extends cdk.StackProps {
+  bucket: s3.IBucket;
+}
+
 export class APIStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props: APIStackProps) {
     super(scope, id, props);
 
     const lambdaFunction = new lambda.Function(this, 'APILambdaFn', {
@@ -21,8 +26,11 @@ export class APIStack extends cdk.Stack {
         NODE_ENV: 'production',
         // TODO-2: determine which suffix is assigned to the API Gateway endpoint and set it here are base
         API_BASE_URL: '',
+        S3_BUCKET_NAME: props.bucket.bucketName,
       },
     });
+
+    // TODO-3: allow Lambda function bucket access
 
     const api = new apigateway.RestApi(this, 'APIGateway', {
       restApiName: 'api-gateway',
