@@ -25,7 +25,7 @@ export class EventHandlerStack extends cdk.Stack {
         functionName: 'create-car-event-handler-fn',
         runtime: lambda.Runtime.NODEJS_24_X,
         // TODO: determine what should go here - the correct handler name
-        handler: '',
+        handler: 'createCarHandler.handler',
         code: lambda.Code.fromAsset(path.join(__dirname, '../../dist'), {
           exclude: ['*.map'],
         }),
