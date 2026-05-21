@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import { Construct } from 'constructs';
+import path from 'node:path';
 
 export class APIStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -12,7 +13,7 @@ export class APIStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_24_X,
       handler: 'lambda.handler',
       // TODO-1: set the path to the directory where bundled app file is located
-      code: lambda.Code.fromAsset('', {
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../dist'), {
         exclude: ['*.map'],
       }),
       memorySize: 512,
@@ -20,7 +21,7 @@ export class APIStack extends cdk.Stack {
       environment: {
         NODE_ENV: 'production',
         // TODO-2: determine which suffix is assigned to the API Gateway endpoint and set it here are base
-        API_BASE_URL: '',
+        API_BASE_URL: '/dev',
       },
     });
 
