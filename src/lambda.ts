@@ -1,12 +1,13 @@
 import serverlessExpress from '@codegenie/serverless-express';
 import { Context, Handler } from 'aws-lambda';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import { bootstrap } from './main';
 
 let server: Handler | undefined;
 
 async function bootstrapLambda(): Promise<Handler> {
   // TODO: create an app instance and initialize it
-  const app = {} as NestExpressApplication;
+  const app = await bootstrap();
+  await app.init();
 
   const expressApp = app.getHttpAdapter().getInstance();
   return serverlessExpress({ app: expressApp });
