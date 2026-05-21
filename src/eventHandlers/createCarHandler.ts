@@ -22,7 +22,7 @@ export const handler = async (event: SQSEvent): Promise<void> => {
     const body = JSON.parse(record.body) as CreateCarDto;
 
     // TODO: Add logic for creating a vehicle
-    const car = carService.create(body);
+    const car = await carService.create(body);
 
     console.log(`Created car with id: ${car.id}`);
   }
