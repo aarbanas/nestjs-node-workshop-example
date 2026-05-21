@@ -39,6 +39,7 @@ export class EventHandlerStack extends cdk.Stack {
     );
 
     // TODO-3: allow Lambda function bucket access
+    props.bucket.grantReadWrite(createCarEventHandlerFn);
 
     createCarEventHandlerFn.addEventSource(
       new SqsEventSource(queue, {

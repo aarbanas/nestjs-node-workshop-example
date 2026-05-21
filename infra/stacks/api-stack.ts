@@ -32,6 +32,7 @@ export class APIStack extends cdk.Stack {
     });
 
     // TODO-3: allow Lambda function bucket access
+    props.bucket.grantReadWrite(lambdaFunction);
 
     const api = new apigateway.RestApi(this, 'APIGateway', {
       restApiName: 'api-gateway',
