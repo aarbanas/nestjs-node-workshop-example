@@ -15,7 +15,7 @@ const client = new SQSClient({
 });
 
 // TODO: set the queue name
-const QUEUE_NAME = '';
+const QUEUE_NAME = 'car-events-queue';
 
 (async () => {
   const { QueueUrl } = await client.send(
